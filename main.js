@@ -3,7 +3,8 @@ import * as Snuff from "./lib/snuff-webgl.js"
 window.onload = function()
 {
     var app = new Snuff.Application("glCanvas");
-    var mesh, meshTransform;
+    var mesh, meshTransformA, meshTransformB, effect;
+    var ready = false;
 
     var onInit = function()
     {
@@ -50,7 +51,10 @@ window.onload = function()
 
         mesh.setIndices(indices, Snuff.IndexTypes.UInt16);
 
-        meshTransform = new Snuff.Transform();
+        meshTransformA = new Snuff.Transform();
+        meshTransformB = new Snuff.Transform();
+
+        meshTransformB.attach(meshTransformA);
 
         var loaded = 0;
         var toLoad = 2;
@@ -64,6 +68,8 @@ window.onload = function()
                 renderer.loadEffect("Simple", "./assets/effects/simple.effect", function()
                 {
                     console.log("All done..");
+                    effect = renderer.getEffect("Simple");
+                    ready = true;
                 });
             }
         }
@@ -81,10 +87,36 @@ window.onload = function()
         });
     }
 
+    var angle = 0.0;
+    var time = 0.0;
     var onUpdate = function(dt)
     {
+        time += dt;
+        angle += dt * 100.0;
 
+        while (angle > 360.0)
+        {
+            angle -= 360.0;
+        }
+
+        meshTransformA.setRotationEuler(0.0, angle, angle);
+        meshTransformA.setLocalTranslation(Math.sin(time) * 0.5, 0.0, -1.0);
+
+        meshTransformB.setRotationEuler(angle * 2.0, 0.0, 0.0);
+        var s = 0.5 + Math.abs(Math.sin(time) * 0.5);
+        meshTransformA.setLocalScale(s, s, s);
     }
 
-    var errCode = app.exec(onInit, onUpdate);
+    var onDraw = function(renderer, dt)
+    {
+        if (ready == false)
+        {
+            return;
+        }
+
+        renderer.draw(meshTransformA, mesh, "Simple", "Default", "Default");
+        renderer.draw(meshTransformB, mesh, "Simple", "Default", "Default");
+    }
+
+    var errCode = app.exec(onInit, onUpdate, onDraw);
 }
