@@ -1,0 +1,10 @@
+{
+    "techniques" : {
+        "Default" : {
+            "Default" : {
+                "shaders" : ["SimpleVS", "SimplePS"],
+                "layout" : "./assets/shaders/shader_layout.sl"
+            }
+        }
+    }
+}
