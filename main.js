@@ -37,13 +37,69 @@ window.onload = function()
         mesh = renderer.createMesh();
         
         var positions = [
-            -0.5, -0.5, 0.0,
-            0.5, -0.5, 0.0,
-            -0.5, 0.5, 0.0,
-            0.5, 0.5, 0.0
+            // Front face
+            -0.5, -0.5, 0.5,
+            0.5, -0.5, 0.5,
+            -0.5, 0.5, 0.5,
+            0.5, 0.5, 0.5,
+
+            // Right face
+            0.5, -0.5, 0.5,
+            0.5, -0.5, -0.5,
+            0.5, 0.5, 0.5,
+            0.5, 0.5, -0.5,
+
+            // Back face
+            0.5, -0.5, -0.5,
+            -0.5, -0.5, -0.5,
+            0.5, 0.5, -0.5,
+            -0.5, 0.5, -0.5,
+
+            // Left face
+            -0.5, -0.5, -0.5,
+            -0.5, -0.5, 0.5,
+            -0.5, 0.5, -0.5,
+            -0.5, 0.5, 0.5,
+
+            // Top face
+            -0.5, -0.5, -0.5,
+            0.5, -0.5, -0.5,
+            -0.5, -0.5, 0.5,
+            0.5, -0.5, 0.5,
+
+            // Bottom face
+            -0.5, 0.5, -0.5,
+            0.5, 0.5, -0.5,
+            -0.5, 0.5, 0.5,
+            0.5, 0.5, 0.5
         ];
 
         var texCoords = [
+            0.0, 0.0,
+            1.0, 0.0,
+            0.0, 1.0,
+            1.0, 1.0,
+
+            0.0, 0.0,
+            1.0, 0.0,
+            0.0, 1.0,
+            1.0, 1.0,
+
+            0.0, 0.0,
+            1.0, 0.0,
+            0.0, 1.0,
+            1.0, 1.0,
+
+            0.0, 0.0,
+            1.0, 0.0,
+            0.0, 1.0,
+            1.0, 1.0,
+
+            0.0, 0.0,
+            1.0, 0.0,
+            0.0, 1.0,
+            1.0, 1.0,
+            
             0.0, 0.0,
             1.0, 0.0,
             0.0, 1.0,
@@ -51,13 +107,69 @@ window.onload = function()
         ]
 
         var normals = [
+            // Front face
+            0.0, 0.0, 1.0,
+            0.0, 0.0, 1.0,
+            0.0, 0.0, 1.0,
+            0.0, 0.0, 1.0,
+
+            // Right face
+            1.0, 0.0, 0.0,
+            1.0, 0.0, 0.0,
+            1.0, 0.0, 0.0,
+            1.0, 0.0, 0.0,
+            
+            // Back face
             0.0, 0.0, -1.0,
             0.0, 0.0, -1.0,
             0.0, 0.0, -1.0,
-            0.0, 0.0, -1.0
+            0.0, 0.0, -1.0,
+            
+            // Left face
+            -1.0, 0.0, 0.0,
+            -1.0, 0.0, 0.0,
+            -1.0, 0.0, 0.0,
+            -1.0, 0.0, 0.0,
+            
+            // Top face
+            0.0, 1.0, 0.0,
+            0.0, 1.0, 0.0,
+            0.0, 1.0, 0.0,
+            0.0, 1.0, 0.0,
+
+            // Bottom face
+            0.0, -1.0, 0.0,
+            0.0, -1.0, 0.0,
+            0.0, -1.0, 0.0,
+            0.0, -1.0, 0.0
         ]
 
         var colors = [
+            1.0, 0.0, 0.0, 1.0,
+            0.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0,
+            
+            1.0, 0.0, 0.0, 1.0,
+            0.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0,
+            
+            1.0, 0.0, 0.0, 1.0,
+            0.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0,
+            
+            1.0, 0.0, 0.0, 1.0,
+            0.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0,
+            
+            1.0, 0.0, 0.0, 1.0,
+            0.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0,
+            
             1.0, 0.0, 0.0, 1.0,
             0.0, 1.0, 0.0, 1.0,
             0.0, 0.0, 1.0, 1.0,
@@ -65,7 +177,17 @@ window.onload = function()
         ]
 
         var indices = [
-            0, 1, 2, 2, 1, 3
+            0, 1, 2, 2, 1, 3,
+
+            4, 5, 6, 6, 5, 7,
+
+            8, 9, 10, 10, 9, 11,
+
+            12, 13, 14, 14, 13, 15,
+
+            16, 17, 18, 18, 17, 19,
+
+            20, 21, 22, 22, 21, 23
         ]
 
         mesh.setVertexAttribute("inPosition", new Float32Array(positions), 3);
@@ -76,9 +198,6 @@ window.onload = function()
         mesh.setIndices(indices, Snuff.IndexTypes.UInt16);
 
         meshTransformA = new Snuff.Transform();
-        meshTransformB = new Snuff.Transform();
-
-        meshTransformB.attach(meshTransformA);
 
         var loaded = 0;
         var toLoad = 2;
@@ -127,12 +246,7 @@ window.onload = function()
             angle -= 360.0;
         }
 
-        meshTransformA.setRotationEuler(0.0, angle, angle);
-        meshTransformA.setLocalTranslation(Math.sin(time) * 0.5, 0.0, -1.0);
-
-        meshTransformB.setRotationEuler(angle * 2.0, 0.0, 0.0);
-        var s = 0.5 + Math.abs(Math.sin(time) * 0.5);
-        meshTransformA.setLocalScale(s, s, s);
+        meshTransformA.setRotationEuler(0.0, angle, 0.0);
 
         mx = 0.0;
         mz = 0.0;
@@ -155,25 +269,29 @@ window.onload = function()
             mx = -1.0;
         }
 
+        var rotSpeed = 90.0;
+
         if (heldKeys[KEY_LEFT] === true)
         {
-            pitch += dt * 180.0;
+            pitch += dt * rotSpeed;
         }
         else if (heldKeys[KEY_RIGHT] === true)
         {
-            pitch -= dt * 180.0;
+            pitch -= dt * rotSpeed;
         }
 
         if (heldKeys[KEY_UP] === true)
         {
-            yaw += dt * 180.0;
+            yaw += dt * rotSpeed;
         }
         else if (heldKeys[KEY_DOWN] === true)
         {
-            yaw -= dt * 180.0;
+            yaw -= dt * rotSpeed;
         }
 
-        camera.translate(mx * 0.25, 0.0, mz * 0.25);
+        var moveSpeed = 0.1;
+
+        camera.translate(mx * moveSpeed, 0.0, mz * moveSpeed);
         camera.setRotationEuler(yaw, pitch, 0.0);
     }
 
@@ -185,7 +303,6 @@ window.onload = function()
         }
 
         renderer.draw(camera, meshTransformA, mesh, effect, "Default", "Default");
-        renderer.draw(camera, meshTransformB, mesh, effect, "Default", "Default");
     }
 
     var errCode = app.exec(onInit, onUpdate, onDraw);

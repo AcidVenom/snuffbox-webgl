@@ -5,6 +5,6 @@ void main()
     gl_Position = PVM * vec4(inPosition, 1.0);
 
     outTexCoord = inTexCoord;
-    outNormal = (PVM * vec4(inNormal, 0.0)).xyz;
+    outNormal =  InvTransposedModel * vec3(inNormal);
     outColor = inColor;
 }

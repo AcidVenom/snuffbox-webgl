@@ -1,4 +1,6 @@
 void main()
 {
-    gl_FragColor = outColor;
+    const vec3 lightDir = normalize(vec3(0.0, 1.0, -1.0));
+    float NL = max(0.0, min(dot(normalize(outNormal), -lightDir), 1.0));
+    gl_FragColor = vec4(vec3(NL), 1.0);
 }

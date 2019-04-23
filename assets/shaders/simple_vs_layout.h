@@ -3,6 +3,7 @@ uniform mat4 View;
 uniform float Time;
 
 uniform mat4 Model;
+uniform mat3 InvTransposedModel;
 
 attribute vec3 inPosition;
 attribute vec2 inTexCoord;

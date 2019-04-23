@@ -12,6 +12,7 @@
         { "name" : "Projection", "type" : "mat4" },
         { "name" : "View", "type" : "mat4" },
         { "name" : "Time", "type" : "float" },
-        { "name" : "Model", "type" : "mat4" }
+        { "name" : "Model", "type" : "mat4" },
+        { "name" : "InvTransposedModel", "type" : "mat3" }
     ]
 }
