@@ -237,6 +237,7 @@ window.onload = function()
         mesh.setIndices(indices, Snuff.IndexTypes.UInt16);
 
         meshTransformA = new Snuff.Transform();
+        camera.setLocalTranslation(0.0, 0.0, 2.0);
 
         var loaded = 0;
         var toLoad = 2;
