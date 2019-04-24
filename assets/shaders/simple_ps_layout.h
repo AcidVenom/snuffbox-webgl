@@ -7,3 +7,5 @@ uniform float Time;
 varying vec2 outTexCoord;
 varying vec3 outNormal;
 varying vec4 outColor;
+
+uniform sampler2D tex0;

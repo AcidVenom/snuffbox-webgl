@@ -1,6 +1,12 @@
 void main()
 {
-    const vec3 lightDir = normalize(vec3(0.0, 1.0, -1.0));
+    const vec3 lightDir = normalize(vec3(0.0, -1.0, -1.0));
     float NL = max(0.0, min(dot(normalize(outNormal), -lightDir), 1.0));
-    gl_FragColor = vec4(vec3(NL), 1.0);
+
+    const vec3 ambientColor = vec3(0.0, 0.5, 1.0);
+    const float A = 0.25;
+
+    vec3 base = texture2D(tex0, outTexCoord).rgb;
+
+    gl_FragColor = vec4(min(ambientColor * A + base * NL, vec3(1.0)), 1.0);
 }

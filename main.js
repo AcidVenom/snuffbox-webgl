@@ -3,7 +3,7 @@ import * as Snuff from "./lib/snuff-webgl.js"
 window.onload = function()
 {
     var app = new Snuff.Application("glCanvas");
-    var mesh, meshTransformA, meshTransformB, effect, camera;
+    var mesh, meshTransformA, meshTransformB, effect, camera, texture;
     var ready = false;
 
     var heldKeys = [];
@@ -62,16 +62,16 @@ window.onload = function()
             -0.5, 0.5, 0.5,
 
             // Top face
+            -0.5, 0.5, 0.5,
+            0.5, 0.5, 0.5,
+            -0.5, 0.5, -0.5,
+            0.5, 0.5, -0.5,
+
+            // Bottom face
             -0.5, -0.5, -0.5,
             0.5, -0.5, -0.5,
             -0.5, -0.5, 0.5,
-            0.5, -0.5, 0.5,
-
-            // Bottom face
-            -0.5, 0.5, -0.5,
-            0.5, 0.5, -0.5,
-            -0.5, 0.5, 0.5,
-            0.5, 0.5, 0.5
+            0.5, -0.5, 0.5
         ];
 
         var texCoords = [
@@ -228,6 +228,9 @@ window.onload = function()
             name: "SimplePS",
             async: shadersReady
         });
+
+        texture = renderer.createTexture(Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1);
+        texture.loadFromImage("./assets/textures/test.png");
     }
 
     var angle = 0.0;
@@ -302,7 +305,7 @@ window.onload = function()
             return;
         }
 
-        renderer.draw(camera, meshTransformA, mesh, effect, "Default", "Default");
+        renderer.draw(camera, meshTransformA, mesh, [texture], effect, "Default", "Default");
     }
 
     var errCode = app.exec(onInit, onUpdate, onDraw);
