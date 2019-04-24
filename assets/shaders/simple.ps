@@ -1,12 +1,29 @@
 void main()
 {
+    vec3 N = normalize(outNormal);
+    vec3 T = normalize(outTangent);
+    vec3 B = normalize(cross(T, N));
+
+    vec3 normalMap = texture2D(tex1, outTexCoord).rgb * 2.0 - 1.0;
+
+    mat3 TBN = mat3(T, B, N);
+    N = normalize(TBN * normalMap);
+
     const vec3 lightDir = normalize(vec3(0.0, -1.0, -1.0));
-    float NL = max(0.0, min(dot(normalize(outNormal), -lightDir), 1.0));
+    float NL = max(0.0, min(dot(N, -lightDir), 1.0));
 
     const vec3 ambientColor = vec3(0.0, 0.5, 1.0);
-    const float A = 0.25;
+    const float A1 = 0.15;
+    const float A2 = 1.0 - A1;
+    const float specularPower = 4.0;
+    const float specularIntensity = 0.75;
+
+    vec3 R = normalize(-lightDir + normalize(EyePosition - outWorld));
+    float NR = max(dot(R, N), 0.0);
+    float S = pow(NR, specularPower) * NL * texture2D(tex2, outTexCoord).r * specularIntensity;
 
     vec3 base = texture2D(tex0, outTexCoord).rgb;
+    vec3 final = min(ambientColor * A1 + base * A2 * NL + S, vec3(1.0));
 
-    gl_FragColor = vec4(min(ambientColor * A + base * NL, vec3(1.0)), 1.0);
+    gl_FragColor = vec4(final, 1.0);
 }

@@ -3,7 +3,7 @@ import * as Snuff from "./lib/snuff-webgl.js"
 window.onload = function()
 {
     var app = new Snuff.Application("glCanvas");
-    var mesh, meshTransformA, meshTransformB, effect, camera, texture;
+    var mesh, meshTransformA, meshTransformB, effect, camera, texture, textureNormal, textureSpecular;
     var ready = false;
 
     var heldKeys = [];
@@ -144,6 +144,44 @@ window.onload = function()
             0.0, -1.0, 0.0
         ]
 
+        var tangents = [
+            // Front face
+            1.0, 0.0, 0.0,
+            1.0, 0.0, 0.0,
+            1.0, 0.0, 0.0,
+            1.0, 0.0, 0.0,
+
+            // Right face
+            0.0, 0.0, -1.0,
+            0.0, 0.0, -1.0,
+            0.0, 0.0, -1.0,
+            0.0, 0.0, -1.0,
+            
+            // Back face
+            -1.0, 0.0, 0.0,
+            -1.0, 0.0, 0.0,
+            -1.0, 0.0, 0.0,
+            -1.0, 0.0, 0.0,
+            
+            // Left face
+            0.0, 0.0, 1.0,
+            0.0, 0.0, 1.0,
+            0.0, 0.0, 1.0,
+            0.0, 0.0, 1.0,
+            
+            // Top face
+            1.0, 0.0, 0.0,
+            1.0, 0.0, 0.0,
+            1.0, 0.0, 0.0,
+            1.0, 0.0, 0.0,
+
+            // Bottom face
+            1.0, 0.0, 0.0,
+            1.0, 0.0, 0.0,
+            1.0, 0.0, 0.0,
+            1.0, 0.0, 0.0
+        ]
+
         var colors = [
             1.0, 0.0, 0.0, 1.0,
             0.0, 1.0, 0.0, 1.0,
@@ -193,6 +231,7 @@ window.onload = function()
         mesh.setVertexAttribute("inPosition", new Float32Array(positions), 3);
         mesh.setVertexAttribute("inTexCoord", new Float32Array(texCoords), 2);
         mesh.setVertexAttribute("inNormal", new Float32Array(normals), 3);
+        mesh.setVertexAttribute("inTangent", new Float32Array(tangents), 3);
         mesh.setVertexAttribute("inColor", new Float32Array(colors), 4);
 
         mesh.setIndices(indices, Snuff.IndexTypes.UInt16);
@@ -230,7 +269,13 @@ window.onload = function()
         });
 
         texture = renderer.createTexture(Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1);
-        texture.loadFromImage("./assets/textures/test.png");
+        texture.loadFromImage("./assets/textures/test.jpg");
+
+        textureNormal = renderer.createTexture(Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1);
+        textureNormal.loadFromImage("./assets/textures/test_normal.jpg");
+
+        textureSpecular = renderer.createTexture(Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1);
+        textureSpecular.loadFromImage("./assets/textures/test_specular.jpg");
     }
 
     var angle = 0.0;
@@ -249,7 +294,7 @@ window.onload = function()
             angle -= 360.0;
         }
 
-        meshTransformA.setRotationEuler(0.0, angle, 0.0);
+        meshTransformA.setRotationEuler(angle, angle, 0.0);
 
         mx = 0.0;
         mz = 0.0;
@@ -304,8 +349,13 @@ window.onload = function()
         {
             return;
         }
+        
+        if (renderer.getFrameCount() % 100 == 0)
+        {
+            document.querySelector("#fps").innerHTML = "<span>FPS: " + Math.floor(1.0 / dt) + "</span>";
+        }
 
-        renderer.draw(camera, meshTransformA, mesh, [texture], effect, "Default", "Default");
+        renderer.draw(camera, meshTransformA, mesh, [texture, textureNormal, textureSpecular], effect, "Default", "Default");
     }
 
     var errCode = app.exec(onInit, onUpdate, onDraw);
