@@ -3,7 +3,7 @@ import * as Snuff from "./lib/snuff-webgl.js"
 window.onload = function()
 {
     var app = new Snuff.Application("glCanvas");
-    var mesh, meshTransformA, meshTransformB, effect, camera, texture, textureNormal, textureSpecular;
+    var mesh, meshTransformA, meshTransformB, effect, camera, texture, textureNormal, textureSpecular, renderTarget;
     var ready = false;
 
     var heldKeys = [];
@@ -239,6 +239,8 @@ window.onload = function()
         meshTransformA = new Snuff.Transform();
         camera.setLocalTranslation(0.0, 0.0, 2.0);
 
+        renderTarget = renderer.createRenderTarget(1280, 720, Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1);
+
         var loaded = 0;
         var toLoad = 2;
 
@@ -356,7 +358,7 @@ window.onload = function()
             document.querySelector("#fps").innerHTML = "<span>FPS: " + Math.floor(1.0 / dt) + "</span>";
         }
 
-        renderer.draw(camera, meshTransformA, mesh, [texture, textureNormal, textureSpecular], effect, "Default", "Default");
+        renderer.draw(null, camera, meshTransformA, mesh, [texture, textureNormal, textureSpecular], effect, "Default", "Default");
     }
 
     var errCode = app.exec(onInit, onUpdate, onDraw);
