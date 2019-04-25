@@ -1,0 +1,6 @@
+void main()
+{
+    vec2 uv = vec2(outTexCoord.x, outTexCoord.y + sin(outTexCoord.x * 10.0 + Time * 2.0) * 0.1);
+    vec3 final = texture2D(tex0, uv).rgb;
+    gl_FragColor = vec4(final, 1.0);
+}

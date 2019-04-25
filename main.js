@@ -3,7 +3,16 @@ import * as Snuff from "./lib/snuff-webgl.js"
 window.onload = function()
 {
     var app = new Snuff.Application("glCanvas");
-    var mesh, meshTransformA, meshTransformB, effect, camera, texture, textureNormal, textureSpecular, renderTarget;
+    var mesh, 
+        meshTransformA,
+        effect, 
+        camera, 
+        texture, 
+        textureNormal, 
+        textureSpecular, 
+        renderTarget,
+        postProcessing;
+
     var ready = false;
 
     var heldKeys = [];
@@ -242,7 +251,7 @@ window.onload = function()
         renderTarget = renderer.createRenderTarget(1280, 720, Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1);
 
         var loaded = 0;
-        var toLoad = 2;
+        var toLoad = 4;
 
         var shadersReady = function()
         {
@@ -252,9 +261,14 @@ window.onload = function()
             {
                 renderer.loadEffect("Simple", "./assets/effects/simple.effect", function()
                 {
-                    console.log("All done..");
                     effect = renderer.getEffect("Simple");
-                    ready = true;
+
+                    renderer.loadEffect("PostProcessing", "./assets/effects/post_processing.effect", function()
+                    {
+                        postProcessing = renderer.getEffect("PostProcessing");
+                        console.log("All done");
+                        ready = true;
+                    });
                 });
             }
         }
@@ -268,6 +282,18 @@ window.onload = function()
         renderer.loadShaderFromPath("./assets/shaders/simple.ps", Snuff.ShaderTypes.Pixel, {
             include: ["./assets/shaders/simple_ps_layout.h"],
             name: "SimplePS",
+            async: shadersReady
+        });
+
+        renderer.loadShaderFromPath("./assets/shaders/fullscreen.vs", Snuff.ShaderTypes.Vertex, {
+            include: ["./assets/shaders/post_processing_vs_layout.h"],
+            name: "FullScreenVS",
+            async: shadersReady
+        });
+
+        renderer.loadShaderFromPath("./assets/shaders/fullscreen.ps", Snuff.ShaderTypes.Pixel, {
+            include: ["./assets/shaders/post_processing_ps_layout.h"],
+            name: "FullScreenPS",
             async: shadersReady
         });
 
@@ -358,7 +384,9 @@ window.onload = function()
             document.querySelector("#fps").innerHTML = "<span>FPS: " + Math.floor(1.0 / dt) + "</span>";
         }
 
-        renderer.draw(null, camera, meshTransformA, mesh, [texture, textureNormal, textureSpecular], effect, "Default", "Default");
+        renderTarget.clear([0.0, 0.5, 1.0, 1.0]);
+        renderer.draw(renderTarget, camera, meshTransformA, mesh, [texture, textureNormal, textureSpecular], effect, "Default", "Default");
+        renderer.fullScreenPass(null, camera, [renderTarget.getTexture(0)], postProcessing, "Default", "Default");
     }
 
     var errCode = app.exec(onInit, onUpdate, onDraw);

@@ -1,0 +1,10 @@
+{
+    "techniques" : {
+        "Default" : {
+            "Default" : {
+                "shaders" : ["FullScreenVS", "FullScreenPS"],
+                "layout" : "./assets/shaders/post_processing_layout.sl"
+            }
+        }
+    }
+}
