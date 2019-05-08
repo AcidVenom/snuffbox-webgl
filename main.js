@@ -10,7 +10,8 @@ window.onload = function()
         texture, 
         textureNormal, 
         textureSpecular, 
-        renderTarget,
+        renderTargetA,
+        renderTargetB,
         postProcessing;
 
     var ready = false;
@@ -248,7 +249,8 @@ window.onload = function()
         meshTransformA = new Snuff.Transform();
         camera.setLocalTranslation(0.0, 0.0, 2.0);
 
-        renderTarget = renderer.createRenderTarget(1280, 720, Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1);
+        renderTargetA = renderer.createRenderTarget(1280, 720, Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1);
+        renderTargetB = renderer.createRenderTarget(1280, 720, Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1);
 
         var loaded = 0;
         var toLoad = 4;
@@ -384,9 +386,16 @@ window.onload = function()
             document.querySelector("#fps").innerHTML = "<span>FPS: " + Math.floor(1.0 / dt) + "</span>";
         }
 
-        renderTarget.clear([0.0, 0.5, 1.0, 1.0]);
-        renderer.draw(renderTarget, camera, meshTransformA, mesh, [texture, textureNormal, textureSpecular], effect, "Default", "Default");
-        renderer.fullScreenPass(null, camera, [renderTarget.getTexture(0)], postProcessing, "Default", "Default");
+        renderTargetA.clear([0.0, 0.0, 0.0, 0.0]);
+        renderTargetB.clear([0.0, 0.0, 0.0, 0.0]);
+
+        renderer.draw(renderTargetA, camera, meshTransformA, mesh, [texture, textureNormal, textureSpecular], effect, "Default", "Default");
+        meshTransformA.setLocalTranslation(1.0, 0.0, 0.0);
+        renderer.draw(renderTargetB, camera, meshTransformA, mesh, [texture, textureNormal, textureSpecular], effect, "Default", "Default");
+        meshTransformA.setLocalTranslation(0.0, 0.0, 0.0);
+
+        renderer.fullScreenPass(null, camera, [renderTargetA.getTexture(0)], postProcessing, "Default", "Default");
+        renderer.fullScreenPass(null, camera, [renderTargetB.getTexture(0)], postProcessing, "Default", "TestBlending");
     }
 
     var errCode = app.exec(onInit, onUpdate, onDraw);

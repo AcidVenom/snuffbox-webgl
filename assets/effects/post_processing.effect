@@ -3,7 +3,19 @@
         "Default" : {
             "Default" : {
                 "shaders" : ["FullScreenVS", "FullScreenPS"],
-                "layout" : "./assets/shaders/post_processing_layout.sl"
+                "layout" : "./assets/shaders/post_processing_layout.sl",
+                "blendState" : "Alpha"
+            },
+            "TestBlending" : {
+                "shaders" : ["FullScreenVS", "FullScreenPS"],
+                "layout" : "./assets/shaders/post_processing_layout.sl",
+                "blendState" : {
+                    "Enabled" : true,
+                    "Mask" : [1, 1, 1, 1],
+                    "BlendOp" : "Add",
+                    "Src" : "One",
+                    "Dest" : "One"
+                }
             }
         }
     }
