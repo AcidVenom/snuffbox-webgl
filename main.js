@@ -12,7 +12,8 @@ window.onload = function()
         textureSpecular, 
         renderTargetA,
         renderTargetB,
-        postProcessing;
+        postProcessing,
+        depthTexture;
 
     var ready = false;
 
@@ -249,8 +250,12 @@ window.onload = function()
         meshTransformA = new Snuff.Transform();
         camera.setLocalTranslation(0.0, 0.0, 2.0);
 
-        renderTargetA = renderer.createRenderTarget(1280, 720, Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1);
-        renderTargetB = renderer.createRenderTarget(1280, 720, Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1);
+        var targetWidth = 1280;
+        var targetHeight = 720;
+
+        depthTexture = renderer.createDepthTexture(targetWidth, targetHeight);
+        renderTargetA = renderer.createRenderTarget(targetWidth, targetHeight, Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1, 1, depthTexture);
+        renderTargetB = renderer.createRenderTarget(targetWidth, targetHeight, Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1, 1, depthTexture);
 
         var loaded = 0;
         var toLoad = 4;
@@ -370,7 +375,7 @@ window.onload = function()
 
         var moveSpeed = 0.1;
 
-        camera.translate(mx * moveSpeed, 0.0, mz * moveSpeed);
+        camera.translateLocal(mx * moveSpeed, 0.0, mz * moveSpeed);
         camera.setRotationEuler(yaw, pitch, 0.0);
     }
 
@@ -390,9 +395,9 @@ window.onload = function()
         renderTargetB.clear([0.0, 0.0, 0.0, 0.0]);
 
         renderer.draw(renderTargetA, camera, meshTransformA, mesh, [texture, textureNormal, textureSpecular], effect, "Default", "Default");
-        meshTransformA.setLocalTranslation(1.0, 0.0, 0.0);
+        meshTransformA.translateWorld(1.0, 0.0, 0.0);
         renderer.draw(renderTargetB, camera, meshTransformA, mesh, [texture, textureNormal, textureSpecular], effect, "Default", "Default");
-        meshTransformA.setLocalTranslation(0.0, 0.0, 0.0);
+        meshTransformA.translateWorld(-1.0, 0.0, 0.0);
 
         renderer.fullScreenPass(null, camera, [renderTargetA.getTexture(0)], postProcessing, "Default", "Default");
         renderer.fullScreenPass(null, camera, [renderTargetB.getTexture(0)], postProcessing, "Default", "TestBlending");
