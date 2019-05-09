@@ -3,7 +3,8 @@
         "Default" : {
             "Default" : {
                 "shaders" : ["SimpleVS", "SimplePS"],
-                "layout" : "./assets/shaders/shader_layout.sl"
+                "layout" : "./assets/shaders/shader_layout.sl",
+                "depthState" : "Default"
             }
         }
     }
