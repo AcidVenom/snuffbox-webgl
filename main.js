@@ -254,8 +254,8 @@ window.onload = function()
         var targetHeight = 720;
 
         depthTexture = renderer.createDepthTexture(targetWidth, targetHeight);
-        renderTargetA = renderer.createRenderTarget(targetWidth, targetHeight, Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1, 1, depthTexture);
-        renderTargetB = renderer.createRenderTarget(targetWidth, targetHeight, Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1, 1, depthTexture);
+        renderTargetA = renderer.createRenderTarget(targetWidth, targetHeight, Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.RGBA, 1, depthTexture);
+        renderTargetB = renderer.createRenderTarget(targetWidth, targetHeight, Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.RGBA, 1, depthTexture);
 
         var loaded = 0;
         var toLoad = 4;
@@ -304,13 +304,13 @@ window.onload = function()
             async: shadersReady
         });
 
-        texture = renderer.createTexture(Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1);
+        texture = renderer.createTexture(Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.RGBA);
         texture.loadFromImage("./assets/textures/test.jpg");
 
-        textureNormal = renderer.createTexture(Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1);
+        textureNormal = renderer.createTexture(Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.RGBA);
         textureNormal.loadFromImage("./assets/textures/test_normal.jpg");
 
-        textureSpecular = renderer.createTexture(Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.R5G5B5A1);
+        textureSpecular = renderer.createTexture(Snuff.TextureTypes.Tex2D, Snuff.TextureFormats.RGBA);
         textureSpecular.loadFromImage("./assets/textures/test_specular.jpg");
     }
 
