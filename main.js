@@ -1,4 +1,5 @@
 import * as Snuff from "./lib/snuff-webgl.js"
+import { PrimitiveTopology } from "./lib/graphics/mesh.js";
 
 window.onload = function()
 {
@@ -46,6 +47,7 @@ window.onload = function()
         camera = new Snuff.Camera();
 
         mesh = renderer.createMesh();
+        mesh.setTopology(PrimitiveTopology.Triangles);
         
         var positions = [
             // Front face
