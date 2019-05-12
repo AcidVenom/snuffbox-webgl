@@ -1,21 +1,40 @@
-import * as glm from "./gl-matrix/math.js"
+import * as math from "./lib/gl-matrix/math.js"
 
-import { Renderer, ShaderTypes } from "./graphics/renderer.js"
-import { Mesh, IndexTypes } from "./graphics/mesh.js"
-import { Texture, TextureTypes, TextureFormats } from "./graphics/texture.js"
-import { Transform } from "./entities/transform.js"
-import { Camera } from "./entities/camera.js"
-import { Scene } from "./entities/scene.js"
-import { Entity } from "./entities/entity.js"
+import { Renderer, ShaderTypes } from "./lib/graphics/renderer.js"
+import { Mesh, IndexTypes } from "./lib/graphics/mesh.js"
+import { Texture, TextureTypes, TextureFormats } from "./lib/graphics/texture.js"
+import { BlendValues, CommonBlend } from "./lib/graphics/blend_state.js"
+import { DepthValues, CommonDepth } from "./lib/graphics/depth_satate.js"
+import { Effect } from "./lib/graphics/effect.js"
+import { Material } from "./lib/graphics/material.js"
+import { RenderTarget } from "./lib/graphics/render_target.js"
+import { Transform } from "./lib/entities/transform.js"
+import { Camera } from "./lib/entities/camera.js"
+import { Scene } from "./lib/entities/scene.js"
+import { Entity } from "./lib/entities/entity.js"
+import { Component } from "./lib/components/component.js"
+import { RendererComponent } from "./lib/components/renderer_component.js"
+import { TransformComponent } from "./lib/components/transform_component.js"
+import { OpenFile } from "./lib/core/common.js"
 
 export { 
-    ShaderTypes, 
+    Renderer, ShaderTypes, 
     Mesh, IndexTypes, 
     Texture, TextureTypes, TextureFormats, 
     Transform, 
     Camera,
     Scene,
-    Entity
+    Entity,
+    math,
+    BlendValues, CommonBlend,
+    DepthValues, CommonDepth,
+    Effect,
+    Material,
+    RenderTarget,
+    Component,
+    RendererComponent,
+    TransformComponent,
+    OpenFile
 };
 
 /**
@@ -91,7 +110,7 @@ export function Application(canvasId)
             onInit.call(this);
         }
 
-        var clearColor = glm.Vector4.fromValues(0.0, 0.5, 1.0, 1.0);
+        var clearColor = math.Vector4.fromValues(0.0, 0.5, 1.0, 1.0);
 
         var lastTime = Date.now();
 
