@@ -6,6 +6,13 @@
                 "layout" : "./assets/shaders/shader_layout.sl",
                 "depthState" : "Default",
                 "cullFace" : "Back"
+            },
+            "Transparent" : {
+                "shaders" : ["SimpleVS", "SimplePS"],
+                "layout" : "./assets/shaders/shader_layout.sl",
+                "depthState" : "Default",
+                "blendState" : "Additive",
+                "cullFace" : "Back"
             }
         }
     }

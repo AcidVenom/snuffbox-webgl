@@ -1,5 +1,10 @@
 import * as Snuff from "./lib/snuff-webgl.js"
-import { PrimitiveTopology } from "./lib/graphics/mesh.js";
+import { PrimitiveTopology } from "./lib/graphics/mesh.js"
+import { Material } from "./lib/graphics/material.js"
+import { TransformComponent } from "./lib/components/transform_component.js"
+import { RendererComponent } from "./lib/components/renderer_component.js"
+import { Entity } from "./lib/entities/entity.js";
+import { Scene } from "./lib/entities/scene.js";
 
 window.onload = function()
 {
@@ -14,7 +19,10 @@ window.onload = function()
         renderTargetA,
         renderTargetB,
         postProcessing,
-        depthTexture;
+        depthTexture,
+        scene,
+        testEntity,
+        material;
 
     var ready = false;
 
@@ -43,8 +51,12 @@ window.onload = function()
     var onInit = function()
     {
         var renderer = app.getRenderer();
+        scene = new Scene(renderer);
 
         camera = new Snuff.Camera();
+        scene.setMainCamera(camera);
+
+        testEntity = new Entity(scene);
 
         mesh = renderer.createMesh();
         mesh.setTopology(PrimitiveTopology.Triangles);
@@ -276,6 +288,10 @@ window.onload = function()
                     {
                         postProcessing = renderer.getEffect("PostProcessing");
                         console.log("All done");
+
+                        material = new Material(effect, "Default", [texture, textureNormal, textureSpecular]);
+                        testEntity.addComponent(new RendererComponent(mesh, material));
+
                         ready = true;
                     });
                 });
@@ -324,6 +340,7 @@ window.onload = function()
 
     var onUpdate = function(dt)
     {
+        scene.update(dt);
         time += dt;
         angle += dt * 100.0;
 
@@ -393,16 +410,20 @@ window.onload = function()
             document.querySelector("#fps").innerHTML = "<span>FPS: " + Math.floor(1.0 / dt) + "</span>";
         }
 
+        scene.draw(dt);
+
         renderTargetA.clear([0.0, 0.0, 0.0, 0.0]);
         renderTargetB.clear([0.0, 0.0, 0.0, 0.0]);
 
-        renderer.draw(renderTargetA, camera, meshTransformA, mesh, [texture, textureNormal, textureSpecular], effect, "Default", "Default");
-        meshTransformA.translateWorld(1.0, 0.0, 0.0);
-        renderer.draw(renderTargetB, camera, meshTransformA, mesh, [texture, textureNormal, textureSpecular], effect, "Default", "Default");
-        meshTransformA.translateWorld(-1.0, 0.0, 0.0);
+        renderer.setTarget(renderTargetA);
+        renderer.renderPass(camera, "Default");
 
-        renderer.fullScreenPass(null, camera, [renderTargetA.getTexture(0)], postProcessing, "Default", "Default");
-        renderer.fullScreenPass(null, camera, [renderTargetB.getTexture(0)], postProcessing, "Default", "TestBlending");
+        renderer.setTarget(renderTargetB);
+        renderer.renderPass(camera, "Transparent");
+
+        renderer.setTarget(null);
+        renderer.fullScreenPass(camera, [renderTargetA.getTexture(0)], postProcessing, "Default", "Default");
+        renderer.fullScreenPass(camera, [renderTargetB.getTexture(0)], postProcessing, "Default", "TestBlending");
     }
 
     var errCode = app.exec(onInit, onUpdate, onDraw);
