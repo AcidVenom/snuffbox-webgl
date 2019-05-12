@@ -4,23 +4,23 @@ import { DemoScene } from "./demo/demo_scene.js"
 window.onload = function()
 {
     var app = new Snuff.Application("glCanvas");
-    var scene;
+    window.Application = app;
 
     var onInit = function()
     {
         var renderer = this.getRenderer();
-        scene = new DemoScene(renderer);
+        this.currentScene = new DemoScene(renderer);
     }
 
     var onUpdate = function(dt)
     {
-        scene.update(dt);
+        this.currentScene.update(dt);
     }
 
     var onDraw = function(renderer, dt)
     {
         document.querySelector("#fps").innerHTML = "<span>FPS: " + this.getFPS() + "</span>";
-        scene.draw(dt);
+        this.currentScene.draw(dt);
     }
 
     var errCode = app.exec(onInit, onUpdate, onDraw);
