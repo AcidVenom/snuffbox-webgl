@@ -1,7 +1,7 @@
 import * as math from "./lib/gl-matrix/math.js"
 
 import { Renderer, ShaderTypes } from "./lib/graphics/renderer.js"
-import { Mesh, IndexTypes } from "./lib/graphics/mesh.js"
+import { Mesh, IndexTypes, PrimitiveTopology } from "./lib/graphics/mesh.js"
 import { Texture, TextureTypes, TextureFormats } from "./lib/graphics/texture.js"
 import { BlendValues, CommonBlend } from "./lib/graphics/blend_state.js"
 import { DepthValues, CommonDepth } from "./lib/graphics/depth_state.js"
@@ -19,7 +19,7 @@ import { OpenFile } from "./lib/core/common.js"
 
 export { 
     Renderer, ShaderTypes, 
-    Mesh, IndexTypes, 
+    Mesh, IndexTypes, PrimitiveTopology,
     Texture, TextureTypes, TextureFormats, 
     Transform, 
     Camera, CameraTypes,
