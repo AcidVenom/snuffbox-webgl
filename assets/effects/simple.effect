@@ -10,7 +10,7 @@
             "Transparent" : {
                 "shaders" : ["SimpleVS", "SimplePS"],
                 "layout" : "./assets/shaders/shader_layout.sl",
-                "depthState" : "Default",
+                "depthState" : "None",
                 "blendState" : "Additive",
                 "cullFace" : "Back"
             }
