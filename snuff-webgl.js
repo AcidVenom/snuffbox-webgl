@@ -9,7 +9,7 @@ import { Effect } from "./lib/graphics/effect.js"
 import { Material } from "./lib/graphics/material.js"
 import { RenderTarget } from "./lib/graphics/render_target.js"
 import { Transform } from "./lib/entities/transform.js"
-import { Camera } from "./lib/entities/camera.js"
+import { Camera, CameraTypes } from "./lib/entities/camera.js"
 import { Scene } from "./lib/entities/scene.js"
 import { Entity } from "./lib/entities/entity.js"
 import { Component } from "./lib/components/component.js"
@@ -22,7 +22,7 @@ export {
     Mesh, IndexTypes, 
     Texture, TextureTypes, TextureFormats, 
     Transform, 
-    Camera,
+    Camera, CameraTypes,
     Scene,
     Entity,
     math,
