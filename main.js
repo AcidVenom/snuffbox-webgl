@@ -8,7 +8,7 @@ window.onload = function()
 
     var onInit = function()
     {
-        var renderer = app.getRenderer();
+        var renderer = this.getRenderer();
         scene = new DemoScene(renderer);
     }
 
@@ -19,7 +19,7 @@ window.onload = function()
 
     var onDraw = function(renderer, dt)
     {
-        document.querySelector("#fps").innerHTML = "<span>FPS: " + app.getFPS() + "</span>";
+        document.querySelector("#fps").innerHTML = "<span>FPS: " + this.getFPS() + "</span>";
         scene.draw(dt);
     }
 
